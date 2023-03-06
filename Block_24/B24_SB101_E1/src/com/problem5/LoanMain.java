@@ -12,8 +12,8 @@ public class LoanMain {
 		GetEMIAmount getFlatRateEMI = lo::getEMIByFlatRate; 		
 		GetEMIAmount getFloatingRateEMI = LoanOperation::getEMIByFloatingRate;
 		
-		System.out.println("EMI by Flat rate: ₹ " + Math.round(getFlatRateEMI.getEMI(l)));
-		System.out.println("EMI by Floating rate: ₹ " + Math.round(getFloatingRateEMI.getEMI(l)));
+		System.out.println("EMI by Flat rate: ₹ " + Math.round(getFlatRateEMI.getEMI(l)*100)/100.0);
+		System.out.println("EMI by Floating rate: ₹ " + Math.round(getFloatingRateEMI.getEMI(l)*100)/100.0);
 		
 	}
 

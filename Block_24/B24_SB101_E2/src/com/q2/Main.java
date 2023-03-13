@@ -25,7 +25,7 @@ public class Main {
 				pw.println("Bharat 66.25 57.58");
 				pw.println("Chaman 70.25 66.74");
 				pw.println("Dhanush 58.25 95.74");
-				pw.println("Garv 58.62 95.74");
+				pw.print("Garv 58.62 95.74");
 				pw.close();
 			} catch (FileNotFoundException e) {			
 				e.printStackTrace();
@@ -38,11 +38,12 @@ public class Main {
 			
 			BufferedReader br = new BufferedReader(new FileReader("student.txt"));		
 			List<String> content = br.lines().toList();
+			br.close();
 			
 			for(String str : content) {
 				String[] strArr = str.split(" ");
-				if(hiPer < Double.parseDouble(strArr[2])) {
-					hiPer = Double.parseDouble(strArr[2]);
+				if(hiPer < Double.parseDouble(strArr[1])) {
+					hiPer = Double.parseDouble(strArr[1]);
 					res = strArr[0];
 				}
 			}	 		
@@ -54,6 +55,7 @@ public class Main {
 			
 			BufferedReader br = new BufferedReader(new FileReader("student.txt"));		
 			List<String> content = br.lines().toList();
+			br.close();
 			
 			for(String str : content) {
 				String[] strArr = str.split(" ");
@@ -77,16 +79,14 @@ public class Main {
 		
 		Future<String> resStr = es.submit(second);
 		Future<Double> resDub = es.submit(third);
-		es.shutdown();
-		
+				
 		try {
 			System.out.println("The student with highest percentage is " + resStr.get());
 			System.out.println("The average attendance percentage of all the scholars is " + resDub.get());
 		} catch (InterruptedException | ExecutionException e) {			
 			e.printStackTrace();
 		}
-		
-		
+		es.shutdown();	
  		
 	}
 

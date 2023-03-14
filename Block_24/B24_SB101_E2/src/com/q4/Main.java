@@ -1,7 +1,5 @@
 package com.q4;
 
-import java.util.Random;
-
 public class Main {
 	
 	public static void main(String[] args) {  
@@ -19,6 +17,8 @@ public class Main {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		
+		System.out.println("Done!");
 		
 	}
 
@@ -55,11 +55,14 @@ class Common {
 	
 	synchronized public void produce() {
 		
-		int count = 0;
-		
+		int count = 0;		
 		while(count++ < 5) {
 			if(flag)
-				try {	wait();		} catch (InterruptedException e) {	 e.printStackTrace();	}
+				try {	
+					wait();		
+				} catch (InterruptedException e) {	 
+					e.printStackTrace();	
+				}
 			
 			int i = (int) (Math.random() * 6);
 			System.out.println("Producer produced: " + i);
@@ -75,11 +78,14 @@ class Common {
 	
 	synchronized public void consume() {
 		
-		int count = 0;
-		
+		int count = 0;		
 		while(count++ < 5) {
 			if(!flag)
-				try {	wait();  } catch (InterruptedException e) { 	e.printStackTrace();	}
+				try {	
+					wait();  
+				} catch (InterruptedException e) {
+					e.printStackTrace();	
+				}
 			
 			int total = 0;
 			for(int i = 0; i <= value; i++) total += i;

@@ -8,16 +8,18 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class BuyProducts {
+	
 	public static void main(String[] args) throws IOException, ClassNotFoundException{
-		//Deserialize products
-		ObjectInput oi = new ObjectInputStream(new FileInputStream("product.ser"));
+		
+		//Deserialising the products
+		ObjectInput oi = new ObjectInputStream(new FileInputStream("spices.ser"));
 		Map<String, Double> map = (Map<String, Double>)oi.readObject();
 		oi.close();
 		
 		Scanner sc = new Scanner(System.in);
 		double billAmount = 0;
 		while(true) {
-			System.out.println("Enter product name & quntity");
+			System.out.println("Enter product name & quantity");
 			String productName = sc.next();
 			int quantity = sc.nextInt();
 			billAmount = billAmount + quantity * map.get(productName);
@@ -27,7 +29,7 @@ public class BuyProducts {
 				break;
 		}
 		
-		System.out.println("Toal bill Amount is " + billAmount);
+		System.out.println("Total bill Amount is " + billAmount);
 		sc.close();
 	}
 }

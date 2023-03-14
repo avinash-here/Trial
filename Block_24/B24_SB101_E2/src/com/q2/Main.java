@@ -25,7 +25,7 @@ public class Main {
 				pw.println("Bharat 66.25 57.58");
 				pw.println("Chaman 70.25 66.74");
 				pw.println("Dhanush 58.25 95.74");
-				pw.print("Garv 58.62 95.74");
+				pw.print("Garv 78.62 95.74");
 				pw.close();
 			} catch (FileNotFoundException e) {			
 				e.printStackTrace();
@@ -91,6 +91,22 @@ public class Main {
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

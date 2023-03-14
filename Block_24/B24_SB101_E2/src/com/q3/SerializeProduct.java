@@ -6,7 +6,9 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
 public class SerializeProduct {
+	
 	public static void main(String[] args) throws IOException {
 		Map<String, Double> productMap = new LinkedHashMap<>();
 		productMap.put("salt", 30.00);
@@ -15,11 +17,11 @@ public class SerializeProduct {
 		productMap.put("cinnamon", 70.00);
 		productMap.put("mace", 25.00);
 		
-		ObjectOutput oo = new ObjectOutputStream(new
-		FileOutputStream("product.ser"));
+		ObjectOutput oo = new ObjectOutputStream(new FileOutputStream("spices.ser"));
 		oo.writeObject(productMap);
 		oo.close();
 		
 		System.out.println("Product details serialized");
 	}
+	
 }

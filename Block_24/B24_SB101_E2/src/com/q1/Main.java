@@ -8,6 +8,8 @@ public class Main {
 		Thread rohit = new Thread(new Rohit(), "Rohit");
 		Thread virat = new Thread(new Virat(), "Virat");
 				
+		dhoni.setPriority(10);
+		
 		try {
 			dhoni.start();
 			dhoni.join();

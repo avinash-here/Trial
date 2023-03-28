@@ -11,8 +11,8 @@ public interface CompanyDTO {
 	public String getCompany_name();
 	public void setCompany_name(String company_name);
 	
-	public Integer getTurnover() ;
-	public void setTurnover(Integer turnover);
+	public Long getTurnover() ;
+	public void setTurnover(Long turnover);
 	
 	public LocalDate getRegistration_date();
 	public void setRegistration_date(LocalDate registration_date) ;	

@@ -6,10 +6,10 @@ import java.time.LocalDate;
 public class CompanyDTOImpl implements CompanyDTO{
 	private String company_Id;
 	private String company_name;
-	private Integer turnover;  // in crores
+	private Long turnover;  // in crores
 	private LocalDate registration_date;
 	
-	public CompanyDTOImpl(String company_Id, String company_name, Integer turnover, LocalDate registration_date) {
+	public CompanyDTOImpl(String company_Id, String company_name, Long turnover, LocalDate registration_date) {
 		super();
 		this.company_Id = company_Id;
 		this.company_name = company_name;
@@ -36,11 +36,11 @@ public class CompanyDTOImpl implements CompanyDTO{
 	}
 	
 	@Override
-	public Integer getTurnover() {
+	public Long getTurnover() {
 		return turnover;
 	}
 	@Override
-	public void setTurnover(Integer turnover) {
+	public void setTurnover(Long turnover) {
 		this.turnover = turnover;
 	}
 	

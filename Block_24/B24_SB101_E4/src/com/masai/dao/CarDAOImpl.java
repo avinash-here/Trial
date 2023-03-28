@@ -4,13 +4,21 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.masai.dto.CarDTO;
+import com.masai.dto.CarDTOImpl;
+import com.masai.dto.CompanyDTOImpl;
+import com.masai.exceptions.NoRecordFoundException;
+import com.masai.exceptions.SomethingWentWrongException;
 
 public class CarDAOImpl implements CarDAO{
 
 	@Override
-	public void addCar(CarDTO car_dto) {
+	public void addCar(CarDTO car_dto) throws SomethingWentWrongException {
 
 		Connection conn = null;
 		
@@ -26,13 +34,10 @@ public class CarDAOImpl implements CarDAO{
 			ps.setInt(4, car_dto.getSeats());
 			ps.setString(5, car_dto.getCom_dto().getCompany_Id());
 			
-			ps.executeUpdate();
-			
-			System.out.println("Car inserted successfully. \n");
+			ps.executeUpdate();			
 			
 		} catch (SQLException e) {
-			System.out.println("Something went wrong");
-			System.out.println("Try Again \n");
+			throw new SomethingWentWrongException("Something went wrong. Please try again.");
 		} finally {
 			DBUtils.closeConnection(conn);
 		}		
@@ -40,10 +45,11 @@ public class CarDAOImpl implements CarDAO{
 	}
 	
 	@Override
-	public void viewAllCars() {
+	public List<CarDTO> viewAllCars() throws SomethingWentWrongException, NoRecordFoundException {
 
 		Connection conn = null;
-
+		List<CarDTO> list = new ArrayList<>();
+		
 		try {
 			conn = DBUtils.acquireConnection();
 			String query = "select car_id, model_name, price, total_seats, company_name, turnover_in_crores "
@@ -53,27 +59,26 @@ public class CarDAOImpl implements CarDAO{
 			ResultSet rs = ps.executeQuery();
 			
 			if(DBUtils.isResultSetEmpty(rs)) {
-				System.out.println("No Cars in the CAR table");
-				return;
+				throw new NoRecordFoundException("No records found in the CAR table.");
 			}
 
-			while(rs.next()) {				
-				System.out.println("Car Id: "+ rs.getString(1) +"  Model Name: "+ rs.getString(2) +"  Price: "+ rs.getInt(3) + 
-				"  Total Seats: "+ rs.getInt(4) +"  Company Name: "+ rs.getString(5) +"  Company Turnover: " + rs.getInt(6) +" Crores");				
+			while(rs.next()) {	
+				list.add(new CarDTOImpl(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4), 
+										new CompanyDTOImpl(null, rs.getString(5), rs.getLong(6), null)));								
 			}
 			
 		} catch (SQLException e) {
-			System.out.println("Something went wrong");
-			System.out.println("Try Again \n");
+			throw new SomethingWentWrongException("Something went wrong. Please try again.");
 		} finally {
 			DBUtils.closeConnection(conn);
 		}		
 		
+		return list;
 	}
 	
 	
 	@Override
-	public void updateCar(CarDTO car_dto) {
+	public void updateCar(CarDTO car_dto) throws SomethingWentWrongException {
 
 		Connection conn = null;
 		
@@ -90,12 +95,9 @@ public class CarDAOImpl implements CarDAO{
 			ps.setString(5, car_dto.getCar_Id());
 			
 			ps.executeUpdate();
-			
-			System.out.println("Car updated successfully. \n");
-			
+						
 		} catch (SQLException e) {
-			System.out.println("Something went wrong");
-			System.out.println("Try Again \n");
+			throw new SomethingWentWrongException("Something went wrong. Please try again.");
 		} finally {
 			DBUtils.closeConnection(conn);
 		}		
@@ -104,7 +106,7 @@ public class CarDAOImpl implements CarDAO{
 	
 	
 	@Override
-	public void deleteCar(String car_id) {
+	public void deleteCar(String car_id) throws SomethingWentWrongException {
 
 		Connection conn = null;		
 		try {
@@ -115,12 +117,9 @@ public class CarDAOImpl implements CarDAO{
 			ps.setString(1, car_id);			
 			
 			ps.executeUpdate();
-			
-			System.out.println("Car deleted successfully. \n");
-			
+						
 		} catch (SQLException e) {
-			System.out.println("Something went wrong");
-			System.out.println("Try Again \n");
+			throw new SomethingWentWrongException("Something went wrong. Please try again.");
 		} finally {
 			DBUtils.closeConnection(conn);
 		}		
@@ -129,9 +128,10 @@ public class CarDAOImpl implements CarDAO{
 	
 	
 	@Override
-	public void numberOfCarsByCompany() {
+	public Map<String, Integer> numberOfCarsByCompany() throws SomethingWentWrongException, NoRecordFoundException {
 
 		Connection conn = null;
+		Map<String, Integer> map = new HashMap<>();
 		try {
 			conn = DBUtils.acquireConnection();
 			String query = "select company_name, count(car_id) FROM company cm LEFT JOIN car cr "
@@ -140,20 +140,21 @@ public class CarDAOImpl implements CarDAO{
 			PreparedStatement ps = conn.prepareStatement(query);	
 			ResultSet rs = ps.executeQuery();
 			
-			System.out.println("Company Name    Total Models");
-			
-			while(rs.next()) {				
-				System.out.print(String.format("%-16s", rs.getString(1)));
-				System.out.println(rs.getInt(2));
+			if(DBUtils.isResultSetEmpty(rs)) {
+				throw new NoRecordFoundException("No records found in the CAR table.");
 			}
 			
+			while(rs.next()) {
+				map.put(rs.getNString(1), rs.getInt(2));
+			}
+						
 		} catch (SQLException e) {
-			System.out.println("Something went wrong");
-			System.out.println("Try Again \n");
+			throw new SomethingWentWrongException("Something went wrong. Please try again.");
 		} finally {
 			DBUtils.closeConnection(conn);
-		}		
+		}	
 		
+		return map;
 	}
 
 }

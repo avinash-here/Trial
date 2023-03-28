@@ -18,38 +18,38 @@ public class UI_Main {
 			System.out.println("4. Delete a Car");
 			System.out.println("5. Display number of models according to company");
 			System.out.println("0. Exit");
-			choice = sc.nextInt();
-			System.out.println();
+			choice = sc.nextInt();			
 			
 			switch(choice) {
-			case 1 : 
-				CarUI.addCar(sc);
-				break;
+				case 1 : 
+					CarUI.addCar(sc);
+					break;
+					
+				case 2 : 
+					CarUI.viewAllCars();
+					break;
+					
+				case 3 : 
+					CarUI.updateCar(sc);
+					break;
 				
-			case 2 : 
-				CarUI.viewAllCars();
-				break;
+				case 4 : 
+					CarUI.deleteCar(sc);
+					break;
 				
-			case 3 : 
-				CarUI.updateCar(sc);
-				break;
-			
-			case 4 : 
-				CarUI.deleteCar(sc);
-				break;
-			
-			case 5 : 
-				CarUI.numberOfCarsByCompany();
-				break;
-			
-			case 0 : 
-				System.out.println("Thank you, visit again!");
-				break;	
+				case 5 : 
+					CarUI.numberOfCarsByCompany();
+					break;
 				
-			default :
-				System.out.println("Invalid input, Try Again!\n");	
+				case 0 : 
+					System.out.println("Thank you, visit again!");
+					break;	
+					
+				default :
+					System.out.println("Invalid input, Try Again!");	
 			}
 			
+			System.out.println();			
 		}
 		while(choice != 0);
 	}
